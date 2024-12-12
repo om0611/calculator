@@ -1,6 +1,7 @@
 let num1;
 let op;
 let num2;
+let display = document.querySelector(".display");
 
 function add(num1, num2) {
     return num1 + num2;
@@ -39,3 +40,14 @@ function operate(num1, num2, op) {
         return divide(num1, num2);
     }
 }
+
+let digitButtons = document.querySelectorAll(".digit");
+digitButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+        if (display.textContent == "0") {
+            display.textContent = btn.textContent;
+        } else {
+            display.textContent += btn.textContent;
+        }
+    });
+});
