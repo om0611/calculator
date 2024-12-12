@@ -2,6 +2,7 @@ let num1;
 let op;
 let num2;
 let display = document.querySelector(".display");
+let displayContent = "0";
 
 function add(num1, num2) {
     return num1 + num2;
@@ -41,13 +42,36 @@ function operate(num1, num2, op) {
     }
 }
 
+function addDigit(event) {
+    let btn = event.target;
+    if (displayContent === "0") {
+        displayContent = btn.textContent;
+    } else {
+        displayContent += btn.textContent;
+    }
+    display.textContent = displayContent;
+}
+
+function addOp(event) {
+    let btn = event.target;
+    num1 = Number(displayContent);
+    op = btn.textContent;
+    displayContent = "";
+    disableOps(); // disable the event listeners for operator buttons
+}
+
+function disableOps() {
+    let opButtons = document.querySelectorAll(".op");
+    opButtons.forEach((btn) => {
+        btn.removeEventListener("click", addOp);
+    });
+}
+
 let digitButtons = document.querySelectorAll(".digit");
 digitButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-        if (display.textContent == "0") {
-            display.textContent = btn.textContent;
-        } else {
-            display.textContent += btn.textContent;
-        }
-    });
+    btn.addEventListener("click", addDigit);
+});
+let opButtons = document.querySelectorAll(".op");
+opButtons.forEach((btn) => {
+    btn.addEventListener("click", addOp);
 });
