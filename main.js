@@ -1,8 +1,8 @@
-let num1;
-let op;
-let num2;
+let num1; // type number
+let op; // type string
+let num2; // type number
+let content = "0"; // type string
 let display = document.querySelector(".display");
-let displayContent = "0";
 
 function add(num1, num2) {
     return num1 + num2;
@@ -17,17 +17,12 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    if (num2 == 0) {
-        if (num1 < 0) {
-            return "-Infinity";
-        } else if (num1 == 0) {
-            return "Error";
-        } else {
-            return "Infinity";
-        }
-    } else {
-        return num1 / num2;
+    let result = num1 / num2;
+
+    if (!isFinite(result) || isNaN(result)) {
+        return result;
     }
+    return parseFloat(result.toFixed(5)); // keep at most 5 decimal points
 }
 
 function operate(num1, num2, op) {
@@ -44,27 +39,56 @@ function operate(num1, num2, op) {
 
 function addDigit(event) {
     let btn = event.target;
-    if (displayContent === "0") {
-        displayContent = btn.textContent;
+    if (content === "0") {
+        content = btn.textContent;
     } else {
-        displayContent += btn.textContent;
+        content += btn.textContent;
     }
-    display.textContent = displayContent;
+    display.textContent = content;
 }
 
 function addOp(event) {
-    let btn = event.target;
-    num1 = Number(displayContent);
-    op = btn.textContent;
-    displayContent = "";
-    disableOps(); // disable the event listeners for operator buttons
+    if (op == null) {
+        let btn = event.target;
+        num1 = Number(content);
+        op = btn.textContent;
+        content += ` ${op} `;
+        display.textContent = content;
+    }
 }
 
-function disableOps() {
-    let opButtons = document.querySelectorAll(".op");
-    opButtons.forEach((btn) => {
-        btn.removeEventListener("click", addOp);
-    });
+function computeResult(event) {
+    if (op == null || content.split(op)[1] === " ") {
+        error();
+    } else {
+        num2 = Number(content.split(op)[1]);
+        let result = operate(num1, num2, op);
+        if (result === NaN) {
+            error();
+        } else {
+            num1 = result;
+            op = null;
+            num2 = null;
+            content = String(num1);
+            display.textContent = content;
+        }
+    }
+}
+
+function error() {
+    num1 = null;
+    op = null;
+    num2 = null;
+    content = "";
+    display.textContent = "Error";
+}
+
+function reset() {
+    num1 = null;
+    op = null;
+    num2 = null;
+    content = "0";
+    display.textContent = content;
 }
 
 let digitButtons = document.querySelectorAll(".digit");
@@ -75,3 +99,6 @@ let opButtons = document.querySelectorAll(".op");
 opButtons.forEach((btn) => {
     btn.addEventListener("click", addOp);
 });
+
+let equalsButton = document.querySelector(".equals");
+equalsButton.addEventListener("click", computeResult);
