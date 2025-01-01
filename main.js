@@ -1,7 +1,7 @@
 let num1; // type number
 let op; // type string
 let num2; // type number
-let result; // type number
+let currResult; // type number
 let content = "0"; // type string
 let display = document.querySelector(".display");
 
@@ -50,6 +50,9 @@ function addDigit(event) {
 
 function addOp(event) {
     if (op == null) {
+        if (content === "" && currResult !== null) {
+            content = String(currResult);
+        }
         let btn = event.target;
         num1 = Number(content);
         op = btn.textContent;
@@ -59,7 +62,8 @@ function addOp(event) {
 }
 
 function computeResult(event) {
-    if (op == null || content.split(op)[1] === " ") {
+    if (op == null) {
+    } else if (content.split(op)[1] === " ") {
         error();
     } else {
         num2 = Number(content.split(op)[1]);
@@ -67,11 +71,12 @@ function computeResult(event) {
         if (result === NaN) {
             error();
         } else {
-            num1 = result;
+            num1 = null;
             op = null;
             num2 = null;
-            content = String(num1);
-            display.textContent = content;
+            currResult = result;
+            content = "";
+            display.textContent = String(result);
         }
     }
 }
@@ -80,7 +85,7 @@ function error() {
     num1 = null;
     op = null;
     num2 = null;
-    result = null;
+    currResult = null;
     content = "";
     display.textContent = "Error";
 }
@@ -89,6 +94,7 @@ function reset() {
     num1 = null;
     op = null;
     num2 = null;
+    currResult = null;
     content = "0";
     display.textContent = content;
 }
