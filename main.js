@@ -1,6 +1,7 @@
 let num1; // type number
 let op; // type string
 let num2; // type number
+let result; // type number
 let content = "0"; // type string
 let display = document.querySelector(".display");
 
@@ -79,6 +80,7 @@ function error() {
     num1 = null;
     op = null;
     num2 = null;
+    result = null;
     content = "";
     display.textContent = "Error";
 }
@@ -102,3 +104,6 @@ opButtons.forEach((btn) => {
 
 let equalsButton = document.querySelector(".equals");
 equalsButton.addEventListener("click", computeResult);
+
+let clearButton = document.querySelector(".clear");
+clearButton.addEventListener("click", reset);
