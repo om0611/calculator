@@ -1,7 +1,6 @@
-let num1; // type number
-let op; // type string
-let num2; // type number
-let currResult; // type number
+let num1 = null; // type number
+let op = ""; // type string
+let num2 = null; // type number
 let content = "0"; // type string
 let display = document.querySelector(".display");
 
@@ -23,11 +22,11 @@ function divide(num1, num2) {
 }
 
 function operate(num1, num2, op) {
-    if (op == "+") {
+    if (op === "+") {
         return add(num1, num2);
-    } else if (op == "-") {
+    } else if (op === "-") {
         return subtract(num1, num2);
-    } else if (op == "x") {
+    } else if (op === "x") {
         return multiply(num1, num2);
     } else {
         return divide(num1, num2);
@@ -46,52 +45,55 @@ function addDigit(event) {
 }
 
 function addOp(event) {
-    if (op == null) {
-        if (content === "" && currResult !== null) {
-            content = String(currResult);
+    let btn = event.target;
+    if (op === "") {
+        if (content === "") {
+            if (num1 === null) {
+                error();
+                return;
+            }
+        } else {
+            num1 = Number(content);
         }
-        let btn = event.target;
-        num1 = Number(content);
         op = btn.textContent;
-        content += ` ${op} `;
-        display.textContent = content;
+        content = "";
+    } else {
+        computeResult();
+        op = btn.textContent;
     }
 }
 
-function computeResult(event) {
-    if (op == null) {
-    } else if (content.split(op)[1] === " ") {
+function compute(event) {
+    computeResult();
+}
+
+function computeResult() {
+    if (op === "") {
+    } else if (content === "") {
         error();
     } else {
-        num2 = Number(content.split(op)[1]);
+        num2 = Number(content);
         let result = operate(num1, num2, op);
-        if (result === NaN) {
-            error();
-        } else {
-            num1 = null;
-            op = null;
-            num2 = null;
-            currResult = result;
-            content = String(content);
-            display.textContent = content;
-        }
+        num1 = result;
+        op = "";
+        num2 = null;
+        content = "";
+        display.textContent = String(result);
     }
 }
 
 function error() {
     num1 = null;
-    op = null;
+    op = "";
     num2 = null;
-    currResult = null;
-    content = "";
-    display.textContent = "Error";
+    content = "Error";
+    display.textContent = content;
 }
 
 function reset() {
     num1 = null;
-    op = null;
+    op = "";
     num2 = null;
-    currResult = null;
     content = "0";
     display.textContent = content;
 }
@@ -106,7 +108,7 @@ opButtons.forEach((btn) => {
 });
 
 let equalsButton = document.querySelector(".equals");
-equalsButton.addEventListener("click", computeResult);
+equalsButton.addEventListener("click", compute);
 
 let clearButton = document.querySelector(".clear");
 clearButton.addEventListener("click", reset);
