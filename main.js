@@ -5,6 +5,7 @@ let currResult; // type number
 let content = "0"; // type string
 let display = document.querySelector(".display");
 
+// ##### DO NOT MODIFY #####
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -18,12 +19,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    let result = num1 / num2;
-
-    if (!isFinite(result) || isNaN(result)) {
-        return result;
-    }
-    return parseFloat(result.toFixed(5)); // keep at most 5 decimal points
+    return num1 / num2;
 }
 
 function operate(num1, num2, op) {
@@ -37,6 +33,7 @@ function operate(num1, num2, op) {
         return divide(num1, num2);
     }
 }
+// ##### -------------- #####
 
 function addDigit(event) {
     let btn = event.target;
@@ -75,8 +72,8 @@ function computeResult(event) {
             op = null;
             num2 = null;
             currResult = result;
-            content = "";
-            display.textContent = String(result);
+            content = String(content);
+            display.textContent = content;
         }
     }
 }
