@@ -86,8 +86,8 @@ function error() {
     num1 = null;
     op = "";
     num2 = null;
-    content = "Error";
-    display.textContent = content;
+    content = "";
+    display.textContent = "Error";
 }
 
 function reset() {
