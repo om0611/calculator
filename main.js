@@ -63,6 +63,46 @@ function addOp(event) {
     }
 }
 
+function addDecimal(event) {
+    if (content === "") {
+        content = "0.";
+    } else if (!content.includes(".")) {
+        content += ".";
+    }
+    display.textContent = content;
+}
+
+function changeSign(event) {
+    if (content === "0") {
+        return;
+    }
+    if (content === "") {
+        if (num1 !== null && op === "") {
+            num1 = -num1;
+            display.textContent = String(num1);
+        }
+        return;
+    }
+    if (content.charAt(0) === "-") {
+        content = content.substring(1); // remove the first character
+    } else {
+        content = "-" + content;
+    }
+    display.textContent = content;
+}
+
+function percent(event) {
+    if (content === "") {
+        if (num1 !== null && op === "") {
+            num1 /= 100;
+            display.textContent = String(num1);
+        }
+    } else {
+        content = String(Number(content) / 100);
+        display.textContent = content;
+    }
+}
+
 function compute(event) {
     computeResult();
 }
@@ -106,6 +146,15 @@ let opButtons = document.querySelectorAll(".op");
 opButtons.forEach((btn) => {
     btn.addEventListener("click", addOp);
 });
+
+let decimalButton = document.querySelector(".decimal");
+decimalButton.addEventListener("click", addDecimal);
+
+let signButton = document.querySelector(".sign");
+signButton.addEventListener("click", changeSign);
+
+let percentButton = document.querySelector(".percent");
+percentButton.addEventListener("click", percent);
 
 let equalsButton = document.querySelector(".equals");
 equalsButton.addEventListener("click", compute);
