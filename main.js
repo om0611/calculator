@@ -24,9 +24,9 @@ function divide(num1, num2) {
 function operate(num1, num2, op) {
     if (op === "+") {
         return add(num1, num2);
-    } else if (op === "-") {
+    } else if (op === "−") {
         return subtract(num1, num2);
-    } else if (op === "x") {
+    } else if (op === "×") {
         return multiply(num1, num2);
     } else {
         return divide(num1, num2);
