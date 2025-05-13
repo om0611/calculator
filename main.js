@@ -114,6 +114,7 @@ function computeResult() {
     } else {
         num2 = Number(content);
         let result = operate(num1, num2, op);
+        result = Math.round(result * 10 ** 4) / 10 ** 4;
         num1 = result;
         op = "";
         num2 = null;
