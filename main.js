@@ -153,6 +153,16 @@ function scrollRight() {
     }
 }
 
+function setBorderWhite(event) {
+    let btn = event.target;
+    btn.style.borderColor = "white";
+}
+
+function setBorderBlack(event) {
+    let btn = event.target;
+    btn.style.borderColor = "black";
+}
+
 let digitButtons = document.querySelectorAll(".digit");
 digitButtons.forEach((btn) => {
     btn.addEventListener("click", addDigit);
@@ -176,3 +186,9 @@ equalsButton.addEventListener("click", compute);
 
 let clearButton = document.querySelector(".clear");
 clearButton.addEventListener("click", reset);
+
+let allButtons = document.querySelectorAll("button");
+allButtons.forEach((btn) => {
+    btn.addEventListener("mousedown", setBorderWhite);
+    btn.addEventListener("mouseup", setBorderBlack);
+});
