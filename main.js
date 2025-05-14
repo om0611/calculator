@@ -42,6 +42,7 @@ function addDigit(event) {
         content += btn.textContent;
     }
     display.textContent = content;
+    scrollRight();
 }
 
 function addOp(event) {
@@ -70,6 +71,7 @@ function addDecimal(event) {
         content += ".";
     }
     display.textContent = content;
+    scrollRight();
 }
 
 function changeSign(event) {
@@ -80,6 +82,7 @@ function changeSign(event) {
         if (num1 !== null && op === "") {
             num1 = -num1;
             display.textContent = String(num1);
+            scrollRight();
         }
         return;
     }
@@ -89,6 +92,7 @@ function changeSign(event) {
         content = "-" + content;
     }
     display.textContent = content;
+    scrollRight();
 }
 
 function percent(event) {
@@ -101,6 +105,7 @@ function percent(event) {
         content = String(Number(content) / 100);
         display.textContent = content;
     }
+    scrollRight();
 }
 
 function compute(event) {
@@ -120,6 +125,7 @@ function computeResult() {
         num2 = null;
         content = "";
         display.textContent = String(result);
+        scrollRight();
     }
 }
 
@@ -137,6 +143,12 @@ function reset() {
     num2 = null;
     content = "0";
     display.textContent = content;
+}
+
+function scrollRight() {
+    if (display.textContent.length > 10) {
+        display.scrollLeft = display.scrollWidth;
+    }
 }
 
 let digitButtons = document.querySelectorAll(".digit");
