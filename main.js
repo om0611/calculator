@@ -58,6 +58,8 @@ function addOp(event) {
         }
         op = btn.textContent;
         content = "";
+    } else if (content === "") {
+        op = btn.textContent;
     } else {
         computeResult();
         op = btn.textContent;
