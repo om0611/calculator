@@ -24,9 +24,9 @@ function divide(num1, num2) {
 function operate(num1, num2, op) {
     if (op === "+") {
         return add(num1, num2);
-    } else if (op === "−") {
+    } else if (op === "−" || op === "-") {
         return subtract(num1, num2);
-    } else if (op === "×") {
+    } else if (op === "×" || op === "*") {
         return multiply(num1, num2);
     } else {
         return divide(num1, num2);
@@ -36,10 +36,14 @@ function operate(num1, num2, op) {
 
 function addDigit(event) {
     let btn = event.target;
+    addDigit_(btn.textContent);
+}
+
+function addDigit_(digit) {
     if (content === "0") {
-        content = btn.textContent;
+        content = digit;
     } else {
-        content += btn.textContent;
+        content += digit;
     }
     display.textContent = content;
     scrollRight();
@@ -47,6 +51,10 @@ function addDigit(event) {
 
 function addOp(event) {
     let btn = event.target;
+    addOp_(btn.textContent);
+}
+
+function addOp_(operator) {
     if (op === "") {
         if (content === "") {
             if (num1 === null) {
@@ -56,17 +64,17 @@ function addOp(event) {
         } else {
             num1 = Number(content);
         }
-        op = btn.textContent;
+        op = operator;
         content = "";
     } else if (content === "") {
-        op = btn.textContent;
+        op = operator;
     } else {
         computeResult();
-        op = btn.textContent;
+        op = operator;
     }
 }
 
-function addDecimal(event) {
+function addDecimal() {
     if (content === "") {
         content = "0.";
     } else if (!content.includes(".")) {
@@ -76,7 +84,7 @@ function addDecimal(event) {
     scrollRight();
 }
 
-function changeSign(event) {
+function changeSign() {
     if (content === "0") {
         return;
     }
@@ -97,7 +105,7 @@ function changeSign(event) {
     scrollRight();
 }
 
-function percent(event) {
+function percent() {
     if (content === "") {
         if (num1 !== null && op === "") {
             num1 /= 100;
@@ -110,7 +118,7 @@ function percent(event) {
     scrollRight();
 }
 
-function compute(event) {
+function compute() {
     computeResult();
 }
 
@@ -163,6 +171,22 @@ function setBorderBlack(event) {
     btn.style.borderColor = "black";
 }
 
+function keyboardInput(event) {
+    let key = event.key;
+    console.log(key);
+    if (!isNaN(Number(key))) {
+        addDigit_(key);
+    } else if (key == ".") {
+        addDecimal();
+    } else if (key == "%") {
+        percent();
+    } else if (key == "Enter") {
+        compute();
+    } else if (["+", "-", "*", "/"].includes(key)) {
+        addOp_(key);
+    }
+}
+
 let digitButtons = document.querySelectorAll(".digit");
 digitButtons.forEach((btn) => {
     btn.addEventListener("click", addDigit);
@@ -191,4 +215,11 @@ let allButtons = document.querySelectorAll("button");
 allButtons.forEach((btn) => {
     btn.addEventListener("mousedown", setBorderWhite);
     btn.addEventListener("mouseup", setBorderBlack);
+    btn.addEventListener("click", (event) => {
+        // remove focus from the button after it is pressed
+        event.target.blur();
+    });
 });
+
+let body = document.querySelector("body");
+body.addEventListener("keypress", keyboardInput);
