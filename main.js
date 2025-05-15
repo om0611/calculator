@@ -223,3 +223,13 @@ allButtons.forEach((btn) => {
 
 let body = document.querySelector("body");
 body.addEventListener("keypress", keyboardInput);
+
+body.addEventListener(
+    "keydown",
+    (event) => {
+        if (event.key === " ") {
+            event.preventDefault();
+        }
+    },
+    true
+);
