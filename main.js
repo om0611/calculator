@@ -139,6 +139,25 @@ function computeResult() {
     }
 }
 
+function backspace() {
+    if (content === "") {
+        return;
+    }
+    if (content[0] === "-") {
+        if (content.length === 2) {
+            content = "0";
+        } else if (content.length > 2) {
+            content = content.slice(0, -1);
+        }
+    } else if (content.length === 1) {
+        content = "0";
+    } else if (content.length > 1) {
+        content = content.slice(0, -1);
+    }
+    display.textContent = content;
+    scrollRight();
+}
+
 function error() {
     num1 = null;
     op = "";
@@ -174,16 +193,23 @@ function setBorderBlack(event) {
 function keyboardInput(event) {
     let key = event.key;
     console.log(key);
-    if (!isNaN(Number(key))) {
+    console.log(content);
+    if (event.key === " ") {
+        event.preventDefault();
+    } else if (!isNaN(Number(key))) {
         addDigit_(key);
-    } else if (key == ".") {
+    } else if (key === ".") {
         addDecimal();
-    } else if (key == "%") {
+    } else if (key === "%") {
         percent();
-    } else if (key == "Enter") {
+    } else if (key === "Enter") {
         compute();
     } else if (["+", "-", "*", "/"].includes(key)) {
         addOp_(key);
+    } else if (key === "Escape") {
+        reset();
+    } else if (key === "Backspace") {
+        backspace();
     }
 }
 
@@ -222,14 +248,4 @@ allButtons.forEach((btn) => {
 });
 
 let body = document.querySelector("body");
-body.addEventListener("keypress", keyboardInput);
-
-body.addEventListener(
-    "keydown",
-    (event) => {
-        if (event.key === " ") {
-            event.preventDefault();
-        }
-    },
-    true
-);
+body.addEventListener("keydown", keyboardInput);
